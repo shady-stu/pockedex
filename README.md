@@ -13,7 +13,7 @@ This project applies backend fundamentals in a small, focused product: external 
 - Catch Pokémon using probability influenced by base experience
 - Inspect caught Pokémon, including stats and types
 - Store the current collection during the CLI session
-- Cache API responses with expiration and background cleanup
+- Cache API responses in memory with a five-minute background cleanup interval
 
 ## Architecture
 
@@ -37,6 +37,12 @@ The command-based structure separates terminal input, application state, API acc
 | API | PokéAPI |
 | Testing | Vitest |
 | Tooling | npm, Git |
+
+## Requirements
+
+- Node.js `20.11.0` (the version recorded in `.nvmrc`)
+- npm
+- An internet connection for PokéAPI requests
 
 ## Getting Started
 
@@ -79,15 +85,27 @@ Pokedex > inspect pikachu
 ```bash
 npm run build
 npm start
+```
+
+## Testing
+
+The current Vitest suite contains two focused unit tests:
+
+- REPL input normalization and whitespace handling
+- Basic cache insertion and retrieval
+
+```bash
 npm test
 ```
+
+Broader command, expiry, pagination, and API-failure coverage remains a future improvement.
 
 ## Engineering Concepts
 
 - Type-safe modeling of external JSON responses
-- Async API calls and error handling
+- Async API calls with command-level error handling
 - Command pattern and separation of concerns
-- Generic cache design with automatic expiration
+- Reusable in-memory cache with periodic cleanup
 - Reduced network traffic through cache hits
 - Unit testing with Vitest
 
@@ -96,8 +114,8 @@ npm test
 - Persistent storage for caught Pokémon
 - Richer terminal formatting and search
 - Battle mechanics
-- Broader test coverage
 
 ## Author
 
 **Shady Sawalha** — Computer Science student interested in backend development and software engineering.
+
