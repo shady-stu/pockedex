@@ -1,271 +1,103 @@
-# 🧬 Pokedex CLI
+# Pokédex CLI
 
-A command-line Pokedex application built with **TypeScript** and **Node.js**.
+An interactive command-line Pokédex built with **TypeScript** and **Node.js**. Explore locations, discover Pokémon, catch them, and inspect your collection—all from a terminal REPL backed by the public PokéAPI.
 
-This project allows users to explore the Pokémon world, discover available Pokémon in different areas, catch Pokémon, and manage their own personal Pokédex.
+## Why This Project Matters
 
-The project focuses on building a clean CLI architecture while practicing important backend concepts such as:
+This project applies backend fundamentals in a small, focused product: external API integration, asynchronous workflows, typed data models, command routing, in-memory caching, and automated testing.
 
-- API integration
-- Data caching
-- Type-safe development with TypeScript
-- Command-based architecture
-- State management
-- Error handling
-- Data modeling
+## Features
 
+- Browse PokéAPI location areas with forward and backward pagination
+- Explore an area and list the Pokémon found there
+- Catch Pokémon using probability influenced by base experience
+- Inspect caught Pokémon, including stats and types
+- Store the current collection during the CLI session
+- Cache API responses with expiration and background cleanup
 
-## 📌 Features
+## Architecture
 
-### 🌎 Explore Locations
+```text
+User input
+  → REPL parser
+  → Command registry
+  → Command handler
+  → PokéAPI client
+  → Expiring cache
+```
 
-Browse available Pokémon locations using the PokeAPI.
+The command-based structure separates terminal input, application state, API access, and caching so each part remains easy to understand and test.
 
-Example:
+## Tech Stack
+
+| Area | Technology |
+| --- | --- |
+| Language | TypeScript |
+| Runtime | Node.js |
+| API | PokéAPI |
+| Testing | Vitest |
+| Tooling | npm, Git |
+
+## Getting Started
 
 ```bash
-Pokedex > map
-
-Explore a specific area:
-
-Pokedex > explore pastoria-city-area
-
-Output:
-
-Exploring pastoria-city-area...
-Found Pokemon:
- - tentacool
- - tentacruel
- - magikarp
-🎯 Catch Pokémon
-
-Attempt to catch Pokémon and add them to your personal Pokédex.
-
-Example:
-
-Pokedex > catch pikachu
-
-Output:
-
-Throwing a Pokeball at pikachu...
-pikachu was caught!
-
-The catching system uses:
-
-Pokémon base experience
-Random probability calculation
-Difficulty-based catching logic
-🔎 Inspect Pokémon
-
-View detailed information about Pokémon you have already caught.
-
-Example:
-
-Pokedex > inspect pikachu
-
-Output:
-
-Name: pikachu
-Height: 4
-Weight: 60
-
-Stats:
-  -hp: 35
-  -attack: 55
-  -defense: 40
-
-Types:
-  - electric
-📖 View Your Pokédex
-
-Keep track of all Pokémon you have successfully caught.
-
-Example:
-
-Pokedex > pokedex
-🏗️ Architecture
-
-The project follows a simple command-based architecture.
-
-src
-│
-├── main.ts
-│
-├── repl.ts
-│
-├── state.ts
-│
-├── commands/
-│   ├── map.ts
-│   ├── explore.ts
-│   ├── catch.ts
-│   ├── inspect.ts
-│   └── pokedex.ts
-│
-├── pokeapi.ts
-│
-└── pokecache.ts
-Command Flow
-User Input
-
-    ↓
-
-REPL Parser
-
-    ↓
-
-Command Registry
-
-    ↓
-
-Command Handler
-
-    ↓
-
-PokeAPI Service
-
-    ↓
-
-Cache Layer
-
-    ↓
-
-External API
-⚡ Caching System
-
-To improve performance, API responses are cached in memory.
-
-Instead of requesting the same endpoint repeatedly:
-
-First Request
-
-CLI
- |
-Fetch API
- |
-Store Response
- |
-Cache
-
-
-Second Request
-
-CLI
- |
-Cache Hit
- |
-Return Data Immediately
-
-The cache includes:
-
-Generic Type Support
-Automatic expiration
-Background cleanup loop
-
-Example:
-
-explore pastoria-city-area
-
-(first request)
-↓
-Network request
-
-
-explore pastoria-city-area
-
-(second request)
-↓
-Cache response
-
-The second request is significantly faster.
-
-🛠️ Technologies
-Languages
-TypeScript
-Runtime
-Node.js
-APIs
-PokeAPI
-Tools
-npm
-Git
-Vitest
-🚀 Installation
-
-Clone the repository:
-
-git clone <repository-url>
-
-Navigate to project:
-
-cd pokedex-cli
-
-Install dependencies:
-
+git clone https://github.com/shady-stu/pockedex.git
+cd pockedex
 npm install
-▶️ Running the Application
-
-Start the CLI:
-
 npm run dev
+```
 
-You should see:
+You should then see the interactive prompt:
 
+```text
 Pokedex >
-🧪 Testing
+```
 
-Run tests:
+## Commands
 
+| Command | Purpose |
+| --- | --- |
+| `help` | Show available commands |
+| `map` | Display the next page of locations |
+| `mapb` | Display the previous page |
+| `explore <area>` | List Pokémon in a location |
+| `catch <name>` | Attempt to catch a Pokémon |
+| `inspect <name>` | Show details for a caught Pokémon |
+| `pokedex` | List the current collection |
+| `exit` | Close the application |
+
+Example session:
+
+```text
+Pokedex > explore pastoria-city-area
+Pokedex > catch pikachu
+Pokedex > inspect pikachu
+```
+
+## Development
+
+```bash
+npm run build
+npm start
 npm test
-💡 Engineering Concepts Practiced
+```
 
-This project demonstrates practical experience with:
+## Engineering Concepts
 
-TypeScript
-Interfaces and Types
-Generics
-Type-safe APIs
-Utility types
-Backend Concepts
-API consumption
-Response modeling
-Caching strategies
-Error handling
-Separation of concerns
-Software Design
-Command pattern
-Single responsibility principle
-Layered architecture
-Performance
+- Type-safe modeling of external JSON responses
+- Async API calls and error handling
+- Command pattern and separation of concerns
+- Generic cache design with automatic expiration
+- Reduced network traffic through cache hits
+- Unit testing with Vitest
 
-Implemented:
+## Future Improvements
 
-In-memory cache
-Cache expiration
-Reduced unnecessary API requests
-📚 Lessons Learned
+- Persistent storage for caught Pokémon
+- Richer terminal formatting and search
+- Battle mechanics
+- Broader test coverage
 
-While building this project, I learned how to:
+## Author
 
-Design a CLI application structure
-Work with external REST APIs
-Build reusable services
-Handle asynchronous operations
-Improve application performance using caching
-Model complex JSON responses using TypeScript
-🔮 Future Improvements
-
-Possible improvements:
-
-Persistent database storage
-User accounts
-Advanced Pokémon search
-Battle system
-Better CLI UI
-Unit test coverage improvements
-👨‍💻 Author
-
-Shady Sawalha
-
-Computer Science Student
-Interested in Backend Development and Software Engineering
+**Shady Sawalha** — Computer Science student interested in backend development and software engineering.
